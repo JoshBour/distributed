@@ -13,11 +13,19 @@ public class Database {
 	private static final String DB_PASS = "omada18db";
 	private static final String DB_NAME = "ds_systems_2016";
 
+	private static Database instance = null;
+
 	private Connection connection;
 	private Statement statement;
 	private ResultSet resultSet;
 
-	public Database() {
+	public static Database getInstance() {
+		if (null == instance)
+			instance = new Database();
+		return instance;
+	}
+
+	private Database() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -27,9 +35,28 @@ public class Database {
 			statement = connection.createStatement();
 
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public ResultSet findAll(String tableName) {
+		String query = "select * from " + tableName;
+		try {
+			resultSet = statement.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultSet;
+	}
+
+	public ResultSet findByLimit(String tableName, int limit) {
+		String query = "select * from " + tableName + " limit " + limit;
+		try {
+			resultSet = statement.executeQuery(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultSet;
 	}
 
 	private void close() {

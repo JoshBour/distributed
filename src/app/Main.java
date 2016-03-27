@@ -1,11 +1,25 @@
 package app;
 
-import database.Database;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import checkin.Checkin;
+import checkin.CheckinCollection;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Database db = new Database();
+		try {
+			ArrayList<Checkin> checkins = CheckinCollection.getCheckins(10);
+
+			for (Checkin checkin : checkins) {
+				System.out.println("##### Checkin " + checkin.getId() + " ######");
+				System.out.println("By user " + checkin.getUser());
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
