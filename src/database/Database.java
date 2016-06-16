@@ -5,9 +5,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+
+import checkin.DateRange;
+import checkin.LatLn;
+import checkin.LocRectangle;
 
 public class Database {
-	private static final String DB_HOST = "195.251.252.98";
+	private static final String DB_HOST = "83.212.117.76";
 	private static final String DB_PORT = "3306";
 	private static final String DB_USER = "omada18";
 	private static final String DB_PASS = "omada18db";
@@ -49,8 +54,16 @@ public class Database {
 		return resultSet;
 	}
 
-	public ResultSet findByLimit(String tableName, int limit) {
-		String query = "select * from " + tableName + " limit " + limit;
+	public ResultSet findBySquareAndDate(String tableName, LocRectangle square, DateRange dateRange) {
+		// we cache the bottomleft and topright since they contain
+		// all the loc info we are gonna need
+		LatLn bottomLeft = square.getBottomLeft(), topRight = square.getTopRight();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String query = "select * from " + tableName;
+		query += " where (latitude between " + bottomLeft.getLat() + " and " + topRight.getLat() + ")";
+		query += " and (longitude between " + bottomLeft.getLn() + " and " + topRight.getLn() + ")";
+		query += " and (time between '" + sdf.format(dateRange.getStartDate()) + "' and '"
+				+ sdf.format(dateRange.getEndDate()) + "')";
 		try {
 			resultSet = statement.executeQuery(query);
 		} catch (SQLException e) {

@@ -1,11 +1,17 @@
 package checkin;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Checkin {
+public class Checkin implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4100578549443679392L;
+
 	private int id;
 	
-	private Location location;
+	private LatLn location;
 
 	private String photos;
 	
@@ -15,7 +21,7 @@ public class Checkin {
 
 	private int user;
 	
-	public Checkin(int id, Location location, String photos, POI poi, Timestamp time, int user){
+	public Checkin(int id, LatLn location, String photos, POI poi, Timestamp time, int user){
 		this.id = id;
 		this.location = location;
 		this.photos = photos;
@@ -32,11 +38,11 @@ public class Checkin {
 		this.id = id;
 	}
 
-	public Location getLocation() {
+	public LatLn getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(LatLn location) {
 		this.location = location;
 	}
 
@@ -72,5 +78,5 @@ public class Checkin {
 		this.user = user;
 	}
 
-
+	
 }

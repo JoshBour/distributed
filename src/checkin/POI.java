@@ -1,6 +1,14 @@
 package checkin;
 
-public class POI {
+import java.io.Serializable;
+
+public class POI implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7521274917549896124L;
+
 	private String POI;
 
 	private String POI_category;
@@ -46,6 +54,11 @@ public class POI {
 
 	public void setPOI_name(String pOI_name) {
 		POI_name = pOI_name;
+	}
+
+	@Override
+	public String toString() {
+		return POI + " : " + POI_name;
 	}
 	
 	
